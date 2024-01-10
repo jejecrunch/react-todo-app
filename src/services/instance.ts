@@ -2,7 +2,7 @@ import axios from 'axios';
 import storage from './store';
 
 export const instance = axios.create({
-  baseURL: process.env.REACT_APP_URL,
+  baseURL: process.env.REACT_APP_API_URL,
 });
 
 instance.interceptors.request.use(

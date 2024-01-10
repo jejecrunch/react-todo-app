@@ -21,14 +21,14 @@ async function getTodoList({ setTodos, selected }: getTodoListParam) {
   if (res.status === 200) {
     switch (selected.cur) {
       case 'Active':
-        setTodos([...base].filter(v => !v.isCompleted));
+        setTodos([...base].filter(v => !v.completed));
         break;
       case 'Completed':
-        setTodos([...base].filter(v => v.isCompleted));
+        setTodos([...base].filter(v => v.completed));
         break;
       default:
-        setTodos([...res.data]);
-        base = [...res.data];
+        setTodos([...res.data.todos]);
+        base = [...res.data.todos];
     }
   }
 }

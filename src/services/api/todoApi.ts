@@ -2,24 +2,20 @@ import { instance } from '../instance';
 import storage from '../store';
 
 export async function getTodos() {
-  const token = storage.get('token');
-  const res = await instance.get('/todos', {
-    headers: {
-      Authorization: 'Bearer ' + token,
-    },
-  });
+  //const token = storage.get('token');
+  const res = await instance.get('/todos');
 
   return res;
 }
 
 export async function addTodo(todo: string) {
-  const token = storage.get('token');
+  //const token = storage.get('token');
   const res = await instance.post(
-    '/todos',
+    '/todos/add',
     { todo: todo },
     {
       headers: {
-        Authorization: 'Bearer ' + token,
+        //Authorization: 'Bearer ' + token,
         ContentType: 'application/json',
       },
     }
@@ -29,10 +25,10 @@ export async function addTodo(todo: string) {
 }
 
 export async function updateTodo(id: number, todo: TodoParam) {
-  const token = storage.get('token');
+  //const token = storage.get('token');
   const res = await instance.put('/todos/' + id, todo, {
     headers: {
-      Authorization: 'Bearer ' + token,
+      //Authorization: 'Bearer ' + token,
       ContentType: 'application/json',
     },
   });

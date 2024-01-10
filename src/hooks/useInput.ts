@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 type UseInputParam = {
   initVal: string | '';
-  validation: (v: string) => boolean | never;
+  validation: (v: string) => boolean | any | never;
 };
 
 export default function useInput({ initVal, validation }: UseInputParam) {

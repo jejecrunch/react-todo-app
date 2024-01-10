@@ -21,11 +21,11 @@ export default function TodoItem({
   const [isEdit, setIsEdit] = useState(false);
 
   const handleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    setNewTodo({ ...newTodo, isCompleted: e.target.checked });
+    setNewTodo({ ...newTodo, completed: e.target.checked });
 
     await updateTodo(newTodo.id, {
       todo: newTodo.todo,
-      isCompleted: e.target.checked,
+      completed: e.target.checked,
     });
 
     const res = await getTodos();
@@ -50,7 +50,7 @@ export default function TodoItem({
 
     const res = await updateTodo(newTodo.id, {
       todo: newTodo.todo,
-      isCompleted: newTodo.isCompleted,
+      completed: newTodo.completed,
     });
 
     if (res.status === 200) {
@@ -80,7 +80,7 @@ export default function TodoItem({
         value=""
         aria-label="..."
         onChange={handleChange}
-        checked={newTodo.isCompleted}
+        checked={newTodo.completed}
         id={`todo${newTodo.id}`}
       />
       {isEdit ? (
@@ -114,7 +114,7 @@ export default function TodoItem({
       ) : (
         <div className="flex-fill">
           <label className="form-check-label" htmlFor={`check${newTodo.id}`}>
-            {newTodo.isCompleted ? <s>{newTodo.todo}</s> : newTodo.todo}{' '}
+            {newTodo.completed ? <s>{newTodo.todo}</s> : newTodo.todo}{' '}
           </label>
         </div>
       )}

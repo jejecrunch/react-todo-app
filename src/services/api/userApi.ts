@@ -16,7 +16,7 @@ export async function signup(user: User) {
 
 export async function login(user: User) {
   const res = await instance.post<{ access_token: string }>(
-    '/auth/signin',
+    '/auth/login',
     user,
     {
       headers: {

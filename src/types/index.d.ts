@@ -1,11 +1,11 @@
 type User = {
-  email: string | null;
+  username: string | null;
   password: string | null;
 };
 
 type TodoParam = {
   todo: string;
-  isCompleted: boolean;
+  completed: boolean;
 };
 
 type Todo = {
