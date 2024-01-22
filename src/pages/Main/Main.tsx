@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, MouseEvent } from 'react';
 import './Main.scss';
 import storage from '../../services/store';
 import { useNavigate } from 'react-router-dom';
@@ -51,7 +51,8 @@ export default function Main() {
       });
 
       if (res.status === 200) {
-        storage.set('token', res.data.access_token);
+        storage.set('token', res.data.token);
+        console.log(res);
         navigate('/todo');
       } else {
         alert('로그인에 실패했어요');
@@ -139,8 +140,8 @@ export default function Main() {
             onClick={undefined}
             disabled={
               mode === 'login'
-                ? !username.valid || !username.valid
-                : !username.valid || !username.valid || !checkPw.valid
+                ? !username.valid || !password.valid
+                : !username.valid || !password.valid || !checkPw.valid
             }
           >
             {mode === 'login' ? '로그인' : '가입'}
