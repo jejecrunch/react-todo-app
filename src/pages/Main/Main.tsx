@@ -1,4 +1,4 @@
-import { useEffect, useState, MouseEvent } from 'react';
+import { useEffect, useState } from 'react';
 import './Main.scss';
 import storage from '../../services/store';
 import { useNavigate } from 'react-router-dom';
@@ -10,20 +10,14 @@ export default function Main() {
   const [mode, setMode] = useState('login');
   const [token] = useState(storage.get('token'));
 
-  const [username, password, checkPw] = [
+  const [email, pw, checkPw] = [
     useInput({
       initVal: '',
-      //validation: v => v.indexOf('@') > -1,
       validation: () => true,
     }),
+    useInput({ initVal: '', validation: () => true }),
     useInput({
       initVal: '',
-      //validation: v => v.length >= 8
-      validation: () => true,
-    }),
-    useInput({
-      initVal: '',
-      //validation: v => password && v === password.value,
       validation: () => true,
     }),
   ];
@@ -45,23 +39,16 @@ export default function Main() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (mode === 'login') {
-      const res = await login({
-        username: username.value,
-        password: password.value,
-      });
+      const res = await login({ username: email.value, password: pw.value });
 
       if (res.status === 200) {
         storage.set('token', res.data.token);
-        console.log(res);
         navigate('/todo');
       } else {
         alert('로그인에 실패했어요');
       }
     } else {
-      const res = await signup({
-        username: username.value,
-        password: password.value,
-      });
+      const res = await signup({ username: email.value, password: pw.value });
 
       if (res.status === 201) {
         alert('회원가입 성공');
@@ -72,8 +59,8 @@ export default function Main() {
   };
 
   useEffect(() => {
-    username.onReset();
-    password.onReset();
+    email.onReset();
+    pw.onReset();
     checkPw.onReset();
   }, [mode]);
 
@@ -93,28 +80,28 @@ export default function Main() {
             </span>
           </div>
           <Input
-            label="아이디"
-            placeholder="아이디를 입력해주세요"
+            label="이메일"
+            placeholder="이메일을 입력해주세요"
             param={{
-              value: username.value,
-              onChange: username.onChange,
+              value: email.value,
+              onChange: email.onChange,
               type: 'text',
-              name: '아이디',
+              name: 'email',
             }}
-            valid={username.valid}
-            errMsg="아이디를 입력해주세요"
+            valid={email.valid}
+            errMsg="이메일을 입력해주세요"
           />
 
           <Input
             label="비밀번호"
             placeholder="비밀번호를 입력해주세요"
             param={{
-              value: password.value,
-              onChange: password.onChange,
+              value: pw.value,
+              onChange: pw.onChange,
               type: 'password',
               name: 'prepassword',
             }}
-            valid={password.valid}
+            valid={pw.valid}
             errMsg="비밀번호를 입력해주세요"
           />
 
@@ -140,8 +127,8 @@ export default function Main() {
             onClick={undefined}
             disabled={
               mode === 'login'
-                ? !username.valid || !password.valid
-                : !username.valid || !password.valid || !checkPw.valid
+                ? !email.valid || !pw.valid
+                : !email.valid || !pw.valid || !checkPw.valid
             }
           >
             {mode === 'login' ? '로그인' : '가입'}
